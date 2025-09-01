@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real Estate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-left">
+        <div class="navbar-brand">    <a href="/" class="brand-link">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" 
+             alt="RealEstate Logo" class="navbar-logo">
+        <span class="brand-text">RealEstate</span>
+    </a></div>
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+            {% if session.get('logged_in') %}
+                {% if session.get('role') == 'viewer' %}
+                    <li><a href="/submit">Submit Property</a></li>
+                {% elif session.get('role') == 'admin' %}
+                    <li><a href="/admin/dashboard">Dashboard</a></li>
+                    <li><a href="/admin/pending">Pending</a></li>
+                    <li><a href="/admin/add-user">Add User</a></li>
+                    <li><a href="/admin/users">Users</a></li>
+                    <li><a href="/admin/properties">Properties</a></li>
+                    <li><a href="/admin/add-property">Add Property</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="navbar-actions">
+        {% if session.get('logged_in') %}
+            <span class="navbar-user">Logged in as: <strong>{{ session.get('username') }}</strong></span>
+            <a href="/contact" class="btn-cta">Contact Us</a>
+            <a href="/logout" class="btn-logout">Logout</a>
+        {% else %}
+            <a href="/contact" class="btn-cta">Contact Us</a>
+            <a href="/login" class="btn-login">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+ <footer class="site-footer">
+  <div class="footer-content">
+    <p>&copy; Deveoped by <b>Rana Ahmad Mujtaba</b></p>
+    <nav class="footer-links">
+      <a href="/">Home</a> |
+      <a href="/">Properties</a> |
+      <a href="/about">About</a> |  
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

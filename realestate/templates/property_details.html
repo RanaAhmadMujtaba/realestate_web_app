@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="property-detail-container">
+  <div class="property-detail-card">
+    <img src="{{ property.image_url or '/static/img/default.jpg' }}" alt="{{ property.title }}" class="property-detail-img">
+
+    <div class="property-detail-info">
+      <h2>{{ property.title }}</h2>
+      <p><strong>Location:</strong> {{ property.location }}</p>
+      <p><strong>Price:</strong> Rs. {{ property.price }}</p>
+      <p><strong>Type:</strong> {{ property.type }}</p>
+      <p><strong>Description:</strong> {{ property.description }}</p>
+      <p><strong>Submitted By:</strong> {{ property.submitted_by }}</p>
+    </div>
+  </div>
+
+  <div class="detail-actions">
+    <a href="/" class="btn-back">← Back to Listings</a>
+  </div>
+</div>
+
+{% endblock %}

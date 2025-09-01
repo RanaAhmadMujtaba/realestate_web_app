@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if session['role'] == 'admin' %}
+<div>
+  <h2 class="text-center">All Properties</h2>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Price</th>
+        <th>Type</th>
+        <th>Submitted By</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in properties %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.title }}</td>
+        <td>{{ p.location }}</td>
+        <td>Rs. {{ p.price }}</td>
+        <td>{{ p.type }}</td>
+        <td>{{ p.submitted_by }}</td>
+        <td>{% if p.approved %}Approved{% else %}Pending{% endif %}</td>
+        <td>
+          <a href="/admin/delete-property/{{ p.id }}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  <p class="text-center text-danger mt-5">Unauthorized access.</p>
+{% endif %}
+{% endblock %}

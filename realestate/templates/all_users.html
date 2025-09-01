@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if session['role'] == 'admin' %}
+<div>
+  <h2 class="text-center">All Users</h2>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <a href="/admin/delete-user/{{ user.id }}" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  <p class="text-center text-danger mt-5">Unauthorized access.</p>
+{% endif %}
+{% endblock %}

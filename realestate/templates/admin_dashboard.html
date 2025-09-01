@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if session['role'] == 'admin' %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<div class="dashboard-container">
+  <h2 class="dashboard-title">Admin Dashboard</h2>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <h5>👤 Total Users</h5>
+      <p>{{ users | length }}</p>
+      <a href="/admin/users" class="btn-link">Manage Users</a>
+    </div>
+
+    <div class="stat-card">
+      <h5>🏘️ Total Properties</h5>
+      <p>{{ properties | length }}</p>
+      <a href="/admin/properties" class="btn-link">View Properties</a>
+    </div>
+
+    <div class="stat-card">
+      <h5>📥 Pending Submissions</h5>
+      <p>{{ pending | length }}</p>
+      <a href="/admin/pending" class="btn-link">Review Submissions</a>
+    </div>
+  </div>
+</div>
+
+{% else %}
+  <p class="unauthorized-msg">Unauthorized access.</p>
+{% endif %}
+{% endblock %}

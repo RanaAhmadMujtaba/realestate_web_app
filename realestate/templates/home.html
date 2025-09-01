@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2 class="text-center">Available Properties</h2>
+
+<!-- Filter Toggle Button -->
+<div class="filter-toggle-container">
+  <button type="button" id="filter-toggle" class="btn btn-cta">Filter Properties</button>
+</div>
+
+<!-- Hidden Filter Form (notice the "hidden" class) -->
+<form method="GET" class="filter-form hidden" id="filter-form">
+  <input type="text" name="location" placeholder="Location"
+         value="{{ filters.location }}">
+  
+  <input type="number" name="min_price" placeholder="Min Price"
+         value="{{ filters.min_price }}">
+  
+  <input type="number" name="max_price" placeholder="Max Price"
+         value="{{ filters.max_price }}">
+  
+  <input type="text" name="type" placeholder="Type (House, Flat, etc.)"
+         value="{{ filters.type }}">
+
+  <select name="sort">
+      <option value="newest" {% if filters.sort == 'newest' %}selected{% endif %}>Newest First</option>
+      <option value="oldest" {% if filters.sort == 'oldest' %}selected{% endif %}>Oldest First</option>
+      <option value="low_high" {% if filters.sort == 'low_high' %}selected{% endif %}>Price: Low to High</option>
+      <option value="high_low" {% if filters.sort == 'high_low' %}selected{% endif %}>Price: High to Low</option>
+  </select>
+
+  <button type="submit">Apply</button>
+  <a href="/" class="btn-reset">Reset</a>
+</form>
+
+<hr>
+
+{% if properties %}
+<div class="property-grid">
+  {% for prop in properties %}
+  <div class="property-card">
+    <img src="{{ prop.image_url or url_for('static', filename='img/default.jpg') }}" alt="Property Image">
+    <h3>{{ prop.title }}</h3>
+    <p><strong>Location:</strong> {{ prop.location }}</p>
+    <p><strong>Price:</strong> Rs. {{ prop.price }}</p>
+    <a href="{{ url_for('property.property_details', id=prop.id) }}" class="btn-link">View Details</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-center">No properties available yet.</p>
+{% endif %}
+
+<script>
+  // Toggle filter form visibility
+  document.addEventListener("DOMContentLoaded", function() {
+    const toggleBtn = document.getElementById("filter-toggle");
+    const filterForm = document.getElementById("filter-form");
+    toggleBtn.addEventListener("click", function() {
+      filterForm.classList.toggle("hidden");
+    });
+  });
+</script>
+{% endblock %}
